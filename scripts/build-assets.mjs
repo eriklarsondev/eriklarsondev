@@ -1,21 +1,39 @@
 /**
- * Draws the README's buttons as SVG, styled after the ones on eriklarson.dev. A
- * README can't carry CSS, so an image is the only way to get the site's square,
- * monospace buttons onto the profile.
+ * Draws the README's typed heading and buttons as SVG, styled after the ones on
+ * eriklarson.dev. A README can't carry CSS or scripts, so an image is the only
+ * way to get the site's type, motion, and buttons onto the profile.
  *
  *   node scripts/build-assets.mjs
  *
- * Every button comes in a light and a dark version. The README picks between
- * them with <picture>, which GitHub matches to its own theme setting rather than
- * the operating system's — so the link sits inside <picture>, around the <img>:
- * one wrapped around the whole <picture> makes GitHub move the image out of it.
+ * Each file carries both themes and switches on prefers-color-scheme inside
+ * itself, so it follows the system's color mode wherever it's shown. <picture>
+ * can't do that here: the README wraps each image in a link, and a browser only
+ * reads a <picture>'s sources when the <img> is its direct child.
  *
- * Geist Mono is embedded in the one button with a label, since an SVG shown as
- * an image can't load a font from anywhere else.
+ * Geist Mono is embedded in each file that sets text, since an SVG shown as an
+ * image can't load a font from anywhere else.
  */
 import { mkdir, writeFile } from 'node:fs/promises'
 
 const OUT = new URL('../assets/', import.meta.url)
+
+// The site's hero titles, in its order.
+const TITLES = [
+  'Software Engineer',
+  'System Architect',
+  'Cloud Engineer',
+  'WordPress Expert',
+  'Coding Mentor',
+  'Technical Lead'
+]
+
+// The site's TypedHeading timings: a slow type, a long hold on the finished
+// title, a quick delete. The gap is the beat the line sits empty between titles.
+const TYPE_MS = 100
+const BACK_MS = 30
+const HOLD_MS = 3000
+const START_MS = 600
+const GAP_MS = 400
 
 const SITE_BUTTON = { slug: 'website', label: 'eriklarson.dev' }
 
@@ -34,27 +52,31 @@ const ICON_BUTTONS = [
 ]
 
 // The site's tokens (src/styles.css), less the ones nothing here draws with.
+// The heading is the exception: it sits in the README's own text, so it takes
+// GitHub's text colors rather than the site's.
 const THEMES = {
   light: {
     background: '#ffffff',
     foreground: '#171717',
     primary: '#0a0a0a',
     primaryForeground: '#ffffff',
-    input: '#d4d4d4'
+    input: '#d4d4d4',
+    heading: '#1f2328'
   },
   dark: {
     background: '#0a0a0a',
     foreground: '#e8e8e8',
     primary: '#ffffff',
     primaryForeground: '#0a0a0a',
-    input: '#3a3a3a'
+    input: '#3a3a3a',
+    heading: '#e6edf3'
   }
 }
 
 // The site's "normal" weight, one step lighter than the usual 400.
 const WEIGHT_NORMAL = 300
 
-// Geist Mono's advance is 600 units to the em, so a label's width can be worked
+// Geist Mono's advance is 600 units to the em, so a line's width can be worked
 // out here rather than measured in a browser.
 const MONO_ADVANCE = 0.6
 
@@ -71,6 +93,21 @@ const mono = Buffer.from(await res.arrayBuffer()).toString('base64')
 const escape = text =>
   text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
+/**
+ * A class per token for fill (.f-name) and stroke (.s-name), light by default
+ * and dark when the system asks for it.
+ */
+function themeStyle({ withFont = false } = {}) {
+  const rules = tokens =>
+    Object.entries(tokens)
+      .map(([name, color]) => `.f-${name}{fill:${color}}.s-${name}{stroke:${color}}`)
+      .join('')
+  const font = withFont
+    ? `@font-face{font-family:'Geist Mono';src:url(data:font/woff2;base64,${mono}) format('woff2');font-weight:100 900}`
+    : ''
+  return `<style>${font}${rules(THEMES.light)}@media (prefers-color-scheme:dark){${rules(THEMES.dark)}}</style>`
+}
+
 function svg({ width, height, title, body }) {
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${escape(title)}">`,
@@ -80,8 +117,65 @@ function svg({ width, height, title, body }) {
   ].join('')
 }
 
+/**
+ * Types each title in turn, centred, then deletes it — the site's TypedHeading
+ * without the script. Each title sits under a clip whose width steps a character
+ * at a time, driven by SMIL, which runs inside an image where CSS can't count
+ * characters.
+ */
+function typedHeading() {
+  const width = 360
+  const height = 40
+  const size = 22
+  const char = size * MONO_ADVANCE
+
+  // Lay the titles end to end on one timeline, then loop it.
+  let clock = START_MS
+  const windows = TITLES.map(title => {
+    const start = clock
+    clock += title.length * TYPE_MS + HOLD_MS + title.length * BACK_MS + GAP_MS
+    return { title, start }
+  })
+  const total = clock
+
+  const clips = []
+  const lines = []
+  windows.forEach(({ title, start }, i) => {
+    const n = title.length
+    const x = (width - n * char) / 2
+    const steps = [[0, 0]]
+    for (let k = 0; k <= n; k++) steps.push([start + k * TYPE_MS, k * char])
+    const held = start + n * TYPE_MS + HOLD_MS
+    for (let k = 1; k <= n; k++) steps.push([held + k * BACK_MS, (n - k) * char])
+
+    // The first step is 0 at 0, which the window's own start repeats; keep one.
+    const unique = steps.filter(([t], j) => j === 0 || t > steps[j - 1][0])
+    const keyTimes = unique.map(([t]) => (t / total).toFixed(6)).join(';')
+    const values = unique.map(([, w]) => w.toFixed(2)).join(';')
+
+    // The first title is drawn in full when nothing animates — a thumbnail, or
+    // a renderer without SMIL — so a still image still says something.
+    const still = i === 0 ? n * char : 0
+    clips.push(
+      `<clipPath id="t${i}"><rect x="${x}" y="0" width="${still}" height="${height}">`,
+      `<animate attributeName="width" dur="${total}ms" repeatCount="indefinite" calcMode="discrete" keyTimes="${keyTimes}" values="${values}"/>`,
+      '</rect></clipPath>'
+    )
+    lines.push(
+      `<text x="${x}" y="${height / 2 + size * 0.35}" clip-path="url(#t${i})" class="f-heading" font-family="'Geist Mono'" font-size="${size}" font-weight="500">${escape(title)}</text>`
+    )
+  })
+
+  return svg({
+    width,
+    height,
+    title: TITLES.join(' · '),
+    body: [themeStyle({ withFont: true }), `<defs>${clips.join('')}</defs>`, ...lines].join('')
+  })
+}
+
 /** The site's primary button: solid ink, square, with the icon in a divided cell. */
-function siteButton({ label }, t) {
+function siteButton({ label }) {
   const height = 44
   const size = 12
   // Leaves out the tracking after the last letter.
@@ -94,18 +188,18 @@ function siteButton({ label }, t) {
     height,
     title: label,
     body: [
-      `<style>@font-face{font-family:'Geist Mono';src:url(data:font/woff2;base64,${mono}) format('woff2');font-weight:100 900}</style>`,
-      `<rect width="${width}" height="${height}" fill="${t.primary}"/>`,
-      `<text x="20" y="${height / 2 + 4.2}" font-family="'Geist Mono'" font-size="${size}" font-weight="${WEIGHT_NORMAL}" letter-spacing="${TRACKING * size}" fill="${t.primaryForeground}">${escape(label)}</text>`,
-      `<line x1="${divider + 0.5}" y1="0" x2="${divider + 0.5}" y2="${height}" stroke="${t.primaryForeground}" stroke-opacity="0.25"/>`,
+      themeStyle({ withFont: true }),
+      `<rect width="${width}" height="${height}" class="f-primary"/>`,
+      `<text x="20" y="${height / 2 + 4.2}" class="f-primaryForeground" font-family="'Geist Mono'" font-size="${size}" font-weight="${WEIGHT_NORMAL}" letter-spacing="${TRACKING * size}">${escape(label)}</text>`,
+      `<line x1="${divider + 0.5}" y1="0" x2="${divider + 0.5}" y2="${height}" class="s-primaryForeground" stroke-opacity="0.25"/>`,
       // The site's up-right arrow for links that leave it, drawn 16px square.
-      `<g transform="translate(${divider + 14} ${height / 2 - 8}) scale(${16 / 24})" fill="none" stroke="${t.primaryForeground}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></g>`
+      `<g transform="translate(${divider + 14} ${height / 2 - 8}) scale(${16 / 24})" class="s-primaryForeground" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></g>`
     ].join('')
   })
 }
 
 /** The site's outline button, cut down to a square around a brand mark. */
-function iconButton({ title, path }, t) {
+function iconButton({ title, path }) {
   const size = 44
   const icon = 18
   const offset = (size - icon) / 2
@@ -115,19 +209,20 @@ function iconButton({ title, path }, t) {
     height: size,
     title,
     body: [
-      `<rect x="0.5" y="0.5" width="${size - 1}" height="${size - 1}" fill="${t.background}" stroke="${t.input}"/>`,
-      `<g transform="translate(${offset} ${offset}) scale(${icon / 24})"><path d="${path}" fill="${t.foreground}"/></g>`
+      themeStyle(),
+      `<rect x="0.5" y="0.5" width="${size - 1}" height="${size - 1}" class="f-background s-input"/>`,
+      `<g transform="translate(${offset} ${offset}) scale(${icon / 24})"><path d="${path}" class="f-foreground"/></g>`
     ].join('')
   })
 }
 
 await mkdir(OUT, { recursive: true })
 
-const files = []
-for (const [theme, tokens] of Object.entries(THEMES)) {
-  files.push([`button-${SITE_BUTTON.slug}-${theme}.svg`, siteButton(SITE_BUTTON, tokens)])
-  for (const item of ICON_BUTTONS) files.push([`button-${item.slug}-${theme}.svg`, iconButton(item, tokens)])
-}
+const files = [
+  ['typed-heading.svg', typedHeading()],
+  [`button-${SITE_BUTTON.slug}.svg`, siteButton(SITE_BUTTON)],
+  ...ICON_BUTTONS.map(item => [`button-${item.slug}.svg`, iconButton(item)])
+]
 
 await Promise.all(files.map(([name, content]) => writeFile(new URL(name, OUT), content)))
 console.log(`Wrote ${files.length} files to assets/`)

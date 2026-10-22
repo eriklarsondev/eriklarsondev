@@ -1,11 +1,6 @@
 <div align="center">
 
-# Hey, I’m Erik
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://readme-typing-svg.demolab.com?font=Geist+Mono&weight=500&size=22&duration=2500&pause=1200&color=E6EDF3&center=true&vCenter=true&width=360&height=40&lines=Software+Engineer;System+Architect;Cloud+Engineer;WordPress+Expert;Coding+Mentor;Technical+Lead">
-  <a href="https://eriklarson.dev"><img alt="Software Engineer · System Architect · Cloud Engineer · WordPress Expert · Coding Mentor · Technical Lead" src="https://readme-typing-svg.demolab.com?font=Geist+Mono&weight=500&size=22&duration=2500&pause=1200&color=1F2328&center=true&vCenter=true&width=360&height=40&lines=Software+Engineer;System+Architect;Cloud+Engineer;WordPress+Expert;Coding+Mentor;Technical+Lead"></a>
-</picture>
+<a href="https://eriklarson.dev"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/typed-heading.svg" width="360" alt="Software Engineer · System Architect · Cloud Engineer · WordPress Expert · Coding Mentor · Technical Lead"></a>
 
 I’ve spent 13 years building for the web — PHP and .NET early on,<br>
 Node and React now, with AWS and Azure throughout.
@@ -14,20 +9,19 @@ Node and React now, with AWS and Azure throughout.
 
 <table align="center">
   <tr>
-    <td width="180" valign="top" align="left">
+    <td width="140" valign="top" align="left">
       <samp>experience</samp><br>
       13 years
     </td>
-    <td width="180" valign="top" align="left">
+    <td width="140" valign="top" align="left">
       <samp>currently</samp><br>
-      VERA<br>
-      <sub>Virtual Experience<br>Research Accelerator</sub>
+      VERA
     </td>
-    <td width="180" valign="top" align="left">
+    <td valign="top" align="left">
       <samp>focus</samp><br>
       Full-stack applications<br>&amp; cloud infrastructure
     </td>
-    <td width="180" valign="top" align="left">
+    <td width="140" valign="top" align="left">
       <samp>based in</samp><br>
       Orlando, Florida
     </td>
@@ -60,8 +54,8 @@ Node and React now, with AWS and Azure throughout.
 
 <br>
 
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/button-website-dark.svg"><a href="https://eriklarson.dev"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/button-website-light.svg" height="44" hspace="4" alt="eriklarson.dev"></a></picture>
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/button-x-dark.svg"><a href="https://x.com/eriklarsondev"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/button-x-light.svg" height="44" hspace="4" alt="X"></a></picture>
-<picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/button-linkedin-dark.svg"><a href="https://www.linkedin.com/in/eriklarsondev/"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/button-linkedin-light.svg" height="44" hspace="4" alt="LinkedIn"></a></picture>
+<a href="https://eriklarson.dev"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/button-website.svg" height="44" hspace="4" alt="eriklarson.dev"></a>
+<a href="https://x.com/eriklarsondev"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/button-x.svg" height="44" hspace="4" alt="X"></a>
+<a href="https://www.linkedin.com/in/eriklarsondev/"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/button-linkedin.svg" height="44" hspace="4" alt="LinkedIn"></a>
 
 </div>
