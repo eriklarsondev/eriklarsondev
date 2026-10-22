@@ -9,19 +9,19 @@ Node and React now, with AWS and Azure throughout.
 
 <table align="center">
   <tr>
-    <td width="140" valign="top" align="left">
+    <td width="25%" valign="top" align="left">
       <samp>experience</samp><br>
       13 years
     </td>
-    <td width="140" valign="top" align="left">
+    <td width="25%" valign="top" align="left">
       <samp>currently</samp><br>
       VERA
     </td>
-    <td valign="top" align="left">
+    <td width="25%" valign="top" align="left">
       <samp>focus</samp><br>
-      Full-stack applications<br>&amp; cloud infrastructure
+      Full-stack applications &amp;&nbsp;cloud infrastructure
     </td>
-    <td width="140" valign="top" align="left">
+    <td width="25%" valign="top" align="left">
       <samp>based in</samp><br>
       Orlando, Florida
     </td>
