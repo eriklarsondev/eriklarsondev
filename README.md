@@ -2,7 +2,7 @@
 
 <a href="https://eriklarson.dev"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/typed-heading.svg" width="360" alt="Software Engineer · System Architect · Cloud Engineer · WordPress Expert · Coding Mentor · Technical Lead"></a>
 
-I’ve spent 13 years building for the web. These days I work with digital agencies, early-stage startups, and in-house dev teams carrying more product than headcount.
+I’ve spent 13 years building for the web — PHP and .NET early on, Node and React now. These days I work with digital agencies, early-stage startups, and in-house dev teams carrying more product than headcount.
 
 <br>
 
