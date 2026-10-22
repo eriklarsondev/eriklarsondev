@@ -2,7 +2,7 @@
 
 <a href="https://eriklarson.dev"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/typed-heading.svg" width="360" alt="Software Engineer · System Architect · Cloud Engineer · WordPress Expert · Coding Mentor · Technical Lead"></a>
 
-I’ve spent 13 years building for the web — PHP and .NET early on, Node and React now. These days I work with digital agencies, early-stage startups, and in-house dev teams carrying more product than headcount.
+I’ve spent 13 years building for the web and the cloud — PHP and .NET early on, Node and React now. These days I work with digital agencies, early-stage startups, and in-house dev teams carrying more product than headcount.
 
 <br>
 
@@ -10,7 +10,7 @@ I’ve spent 13 years building for the web — PHP and .NET early on, Node and R
   <tr>
     <td width="25%" valign="top" align="left">
       <samp>experience</samp><br>
-      13 years
+      13&nbsp;years
     </td>
     <td width="25%" valign="top" align="left">
       <samp>currently</samp><br>
@@ -18,11 +18,11 @@ I’ve spent 13 years building for the web — PHP and .NET early on, Node and R
     </td>
     <td width="25%" valign="top" align="left">
       <samp>focus</samp><br>
-      Full-stack applications<br>&amp; cloud infrastructure
+      Full&#8209;stack&nbsp;applications<br>&amp;&nbsp;cloud&nbsp;infrastructure
     </td>
     <td width="25%" valign="top" align="left">
       <samp>based in</samp><br>
-      Orlando, Florida
+      Orlando,&nbsp;Florida
     </td>
   </tr>
 </table>
