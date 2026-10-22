@@ -2,8 +2,7 @@
 
 <a href="https://eriklarson.dev"><img src="https://raw.githubusercontent.com/eriklarsondev/eriklarsondev/main/assets/typed-heading.svg" width="360" alt="Software Engineer · System Architect · Cloud Engineer · WordPress Expert · Coding Mentor · Technical Lead"></a>
 
-I’ve spent 13 years building for the web — PHP and .NET early on,<br>
-Node and React now, with AWS and Azure throughout.
+I’ve spent 13 years building for the web. These days I work with digital agencies, early-stage startups, and in-house dev teams carrying more product than headcount.
 
 <br>
 
@@ -19,7 +18,7 @@ Node and React now, with AWS and Azure throughout.
     </td>
     <td width="25%" valign="top" align="left">
       <samp>focus</samp><br>
-      Full-stack applications &amp;&nbsp;cloud infrastructure
+      Full-stack applications<br>&amp; cloud infrastructure
     </td>
     <td width="25%" valign="top" align="left">
       <samp>based in</samp><br>
